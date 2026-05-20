@@ -1,0 +1,502 @@
+<!doctype html>
+
+<html lang="en" class="dark" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>User Dashboard | GoRido</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+
+        tailwind.config = { darkMode: "class" };
+
+    </script>
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap"
+            rel="stylesheet" />
+
+    <style>
+        h1,
+
+        h2,
+
+        h3,
+
+        h4,
+
+        .brand {
+
+          font-family: "Outfit", sans-serif;
+
+        }
+
+
+
+        .glass {
+
+          background: rgba(15, 23, 42, 0.72);
+
+          backdrop-filter: blur(18px);
+
+        }
+
+
+
+        .card-hover {
+
+          transition: 0.25s ease;
+
+        }
+
+
+
+        .card-hover:hover {
+
+          transform: tranzincY(-4px);
+
+        }
+
+    </style>
+
+</head>
+
+<body
+        class="min-h-screen bg-zinc-100 dark:bg-zinc-950 text-zinc-800 dark:text-white">
+
+<div class="min-h-screen flex">
+
+    <!-- Sidebar -->
+
+    <div th:replace="~{sidebar :: sidebar}"></div>
+
+    <!-- Main Area -->
+
+    <main class="flex-1 lg:ml-72">
+
+        <!-- Top Bar -->
+
+        <header
+                class="sticky top-0 z-40 bg-white/80 dark:bg-zinc-950/80 backdrop-blur border-b border-zinc-200 dark:border-zinc-800">
+
+            <div
+                    class="px-5 sm:px-8 py-4 flex items-center justify-between">
+
+                <div>
+
+                    <h2 class="text-xl sm:text-2xl font-bold">Manage
+                        Vehicles</h2>
+
+                    <p
+                            class="text-sm text-zinc-500 dark:text-zinc-400">
+                        Welcome back, <span class="capitalize"
+                                            th:text="${user.first_name}"></span> 👋
+                    </p>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <section class="p-5 sm:p-8 space-y-8">
+
+            <div class="flex items-center justify-between w-full">
+
+                <!-- Breadcrumbs (LEFT) -->
+                <nav class="text-xs text-zinc-400 dark:text-zinc-500 flex items-center flex-wrap">
+                    <a href="/index" class="hover:text-yellow-400 transition">Home</a>
+
+                    <span class="mx-2">/</span>
+
+                    <a href="/profile" class="hover:text-yellow-400 transition">User Profile</a>
+
+                    <span class="mx-2">/</span>
+
+                    <span class="text-zinc-300 dark:text-zinc-200 font-medium">Manage Vehicle</span>
+                </nav>
+
+            </div>
+
+            <!-- Recent Rides -->
+
+            <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-lg border border-zinc-200 dark:border-zinc-950 space-y-6">
+
+                <div class="bg-zinc-950 text-white p-6 space-y-6">
+
+                <div onclick="window.location.href='/addvehicle'" class="vehicle-card bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border-2 border-dashed border-yellow-400/50 hover:border-yellow-500 hover:bg-yellow-50 dark:hover:bg-zinc-800 transition cursor-pointer flex flex-col items-center justify-center py-10">
+
+                    <!-- Icon -->
+                    <div
+                            class="w-14 h-14 rounded-xl bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center mb-3">
+                        <svg class="w-6 h-6 text-yellow-500"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M12 4v16m8-8H4" />
+                        </svg>
+                    </div>
+
+                    <!-- Text -->
+                    <h3 class="text-sm font-semibold text-zinc-800 dark:text-white">
+                        Add Vehicle
+                    </h3>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+                        Click to register a new vehicle
+                    </p>
+
+                </div>
+
+                <!-- Vehicle 2 — Inactive -->
+                <div th:each="vehicle : ${vehicles}"
+                     class="rounded-[28px] border border-zinc-800 bg-[#101014] overflow-hidden">
+
+                    <!-- HEADER -->
+                    <div class="px-6 py-5 border-b border-zinc-800">
+
+                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+
+                            <!-- LEFT -->
+                            <div class="flex items-center gap-4">
+
+                                <!-- ICON -->
+                                <div class="w-14 h-14 rounded-2xl border border-zinc-800
+                            bg-zinc-900 flex items-center justify-center shrink-0">
+
+                                    <svg class="w-7 h-7 text-zinc-300"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         viewBox="0 0 24 24">
+
+                                        <path stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              stroke-width="1.7"
+                                              d="M3 13l2-5a2 2 0 012-1h10a2 2 0 012 1l2 5m-1 4H4m1 0a1 1 0 001 1h12a1 1 0 001-1m-14 0v-3m14 3v-3M7 17v1m10-1v1"/>
+                                    </svg>
+                                </div>
+
+                                <!-- VEHICLE INFO -->
+                                <div>
+
+                                    <div class="flex flex-wrap items-center gap-3">
+
+                                        <h2 th:text="${vehicle.number}"
+                                            class="text-xl font-bold text-white tracking-wide">
+                                        </h2>
+
+                                        <!-- STATUS -->
+                                        <div th:if="${vehicle.statusId.id == 1}"
+                                             class="flex items-center gap-2 px-3 py-1 rounded-full
+                                    border border-emerald-500/20 bg-emerald-500/10
+                                    text-emerald-400 text-xs font-semibold">
+
+                                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                                            Active
+                                        </div>
+
+                                        <div th:if="${vehicle.statusId.id == 2}"
+                                             class="flex items-center gap-2 px-3 py-1 rounded-full
+                                    border border-orange-500/20 bg-orange-500/10
+                                    text-orange-400 text-xs font-semibold">
+
+                                            <span class="w-2 h-2 rounded-full bg-orange-400"></span>
+                                            Deactive
+                                        </div>
+                                    </div>
+
+                                    <p class="mt-2 text-sm text-zinc-400">
+
+                        <span class="capitalize"
+                              th:text="${vehicle.typeHasBrand.vehicleBrand.name}">
+                        </span>
+
+                                        ·
+
+                                        <span class="capitalize"
+                                              th:text="${vehicle.model}">
+                        </span>
+
+                                        ·
+
+                                        <span class="capitalize"
+                                              th:text="${vehicle.typeHasBrand.vehicleType.name}">
+                        </span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- ACTIONS -->
+                            <div class="flex items-center gap-3">
+
+                                <!-- CHANGE STATUS -->
+                                <button th:if="${vehicle.statusId.id == 1}"
+                                        th:attr="data-number=${vehicle.number}"
+                                        onclick="changeStatus(this)"
+                                        class="h-11 px-5 rounded-2xl border border-zinc-700
+                               bg-zinc-900 text-sm text-white font-medium
+                               hover:bg-zinc-800">
+
+                                    Deactivate
+                                </button>
+
+                                <button th:if="${vehicle.statusId.id == 2}"
+                                        th:attr="data-number=${vehicle.number}"
+                                        onclick="changeStatus(this)"
+                                        class="h-11 px-5 rounded-2xl border border-zinc-700
+                               bg-zinc-900 text-sm text-white font-medium
+                               hover:bg-zinc-800">
+
+                                    Activate
+                                </button>
+
+                                <!-- DELETE -->
+                                <button th:attr="data-number=${vehicle.number}"
+                                        onclick="deleteVehicle(this)"
+                                        class="w-11 h-11 rounded-2xl border border-red-500/20
+                               bg-red-500/10 flex items-center justify-center
+                               text-red-400 hover:bg-red-500/20">
+
+                                    <svg class="w-5 h-5"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         viewBox="0 0 24 24">
+
+                                        <path stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M19 7l-1 12a2 2 0 01-2 2H8a2 2 0 01-2-2L5 7m5 4v6m4-6v6M9 7h6"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BODY -->
+                    <div class="p-6 space-y-6">
+
+                        <!-- DETAILS -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+
+                            <!-- TYPE -->
+                            <div class="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4">
+
+                                <p class="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
+                                    Vehicle Type
+                                </p>
+
+                                <h3 th:text="${vehicle.typeHasBrand.vehicleType.name}"
+                                    class="mt-2 text-base font-semibold text-white">
+                                </h3>
+                            </div>
+
+                            <!-- BRAND -->
+                            <div class="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4">
+
+                                <p class="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
+                                    Brand
+                                </p>
+
+                                <h3 th:text="${vehicle.typeHasBrand.vehicleBrand.name}"
+                                    class="mt-2 text-base font-semibold text-white">
+                                </h3>
+                            </div>
+
+                            <!-- MODEL -->
+                            <div class="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4">
+
+                                <p class="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
+                                    Model
+                                </p>
+
+                                <h3 th:text="${vehicle.model}"
+                                    class="mt-2 text-base font-semibold text-white">
+                                </h3>
+                            </div>
+
+                            <!-- COLOR -->
+                            <div class="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4">
+
+                                <p class="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
+                                    Colour
+                                </p>
+
+                                <div class="mt-2 flex items-center gap-2">
+
+                                    <div class="w-3 h-3 rounded-full border border-zinc-600 bg-white"></div>
+
+                                    <h3 th:text="${vehicle.vehicleColor.name}"
+                                        class="text-base font-semibold text-white">
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <!-- PLATE -->
+                            <div class="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4">
+
+                                <p class="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
+                                    Plate Number
+                                </p>
+
+                                <h3 th:text="${vehicle.number}"
+                                    class="mt-2 text-base font-semibold text-white">
+                                </h3>
+                            </div>
+
+                            <!-- INSURANCE -->
+                            <div class="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4">
+
+                                <p class="text-[11px] uppercase tracking-[0.2em] text-zinc-500">
+                                    Insurance Number
+                                </p>
+
+                                <h3 th:text="${vehicle.insurance_number}"
+                                    class="mt-2 text-base font-semibold text-white">
+                                </h3>
+                            </div>
+                        </div>
+
+                        <!-- DOCUMENTS -->
+                        <div>
+
+                            <div class="flex items-center justify-between mb-4">
+
+                                <h3 class="text-lg font-semibold text-white">
+                                    Documents
+                                </h3>
+
+                                <div class="text-xs text-zinc-500">
+                                    All files uploaded
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                                <!-- PHOTO -->
+                                <div class="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-5">
+
+                                    <div class="flex items-center justify-between">
+
+                                        <div class="w-12 h-12 rounded-2xl border border-yellow-500/20
+                                    bg-yellow-500/10 flex items-center justify-center">
+
+                                            <svg class="w-5 h-5 text-yellow-400"
+                                                 fill="none"
+                                                 stroke="currentColor"
+                                                 viewBox="0 0 24 24">
+
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="1.8"
+                                                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16"/>
+                                            </svg>
+                                        </div>
+
+                                        <span class="text-[11px] font-semibold text-emerald-400">
+                            Uploaded
+                        </span>
+                                    </div>
+
+                                    <p class="mt-4 text-sm font-semibold text-white">
+                                        Vehicle Photo
+                                    </p>
+
+                                    <p th:text="${vehicle.vehicle_photo}"
+                                       class="mt-1 text-xs text-zinc-500 break-all">
+                                    </p>
+                                </div>
+
+                                <!-- BOOK -->
+                                <div class="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-5">
+
+                                    <div class="flex items-center justify-between">
+
+                                        <div class="w-12 h-12 rounded-2xl border border-blue-500/20
+                                    bg-blue-500/10 flex items-center justify-center">
+
+                                            <svg class="w-5 h-5 text-blue-400"
+                                                 fill="none"
+                                                 stroke="currentColor"
+                                                 viewBox="0 0 24 24">
+
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="1.8"
+                                                      d="M9 12h6m-6 4h6"/>
+                                            </svg>
+                                        </div>
+
+                                        <span class="text-[11px] font-semibold text-emerald-400">
+                            Uploaded
+                        </span>
+                                    </div>
+
+                                    <p class="mt-4 text-sm font-semibold text-white">
+                                        Vehicle Book
+                                    </p>
+
+                                    <p th:text="${vehicle.vehicle_book}"
+                                       class="mt-1 text-xs text-zinc-500 break-all">
+                                    </p>
+                                </div>
+
+                                <!-- INSURANCE -->
+                                <div class="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-5">
+
+                                    <div class="flex items-center justify-between">
+
+                                        <div class="w-12 h-12 rounded-2xl border border-emerald-500/20
+                                    bg-emerald-500/10 flex items-center justify-center">
+
+                                            <svg class="w-5 h-5 text-emerald-400"
+                                                 fill="none"
+                                                 stroke="currentColor"
+                                                 viewBox="0 0 24 24">
+
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="1.8"
+                                                      d="M9 12l2 2 4-4"/>
+                                            </svg>
+                                        </div>
+
+                                        <span class="text-[11px] font-semibold text-emerald-400">
+                            Uploaded
+                        </span>
+                                    </div>
+
+                                    <p class="mt-4 text-sm font-semibold text-white">
+                                        Insurance Document
+                                    </p>
+
+                                    <p th:text="${vehicle.insurance_photo}"
+                                       class="mt-1 text-xs text-zinc-500 break-all">
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+<script src="/Js/managevehicle.js"></script>
+<script src="/Js/default.js"></script>
+</body>
+
+</html>
