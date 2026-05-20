@@ -1,0 +1,277 @@
+<!doctype html>
+
+<html lang="en" class="dark" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Manage Vehicles | GoRido</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+
+    tailwind.config = { darkMode: "class" };
+
+  </script>
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap"
+          rel="stylesheet" />
+
+  <style>
+    h1,
+
+    h2,
+
+    h3,
+
+    h4,
+
+    .brand {
+
+      font-family: "Outfit", sans-serif;
+
+    }
+
+
+
+    .glass {
+
+      background: rgba(15, 23, 42, 0.72);
+
+      backdrop-filter: blur(18px);
+
+    }
+
+
+
+    .card-hover {
+
+      transition: 0.25s ease;
+
+    }
+
+
+
+    .card-hover:hover {
+
+      transform: tranzincY(-4px);
+
+    }
+
+  </style>
+
+</head>
+
+<body
+        class="min-h-screen bg-zinc-100 dark:bg-zinc-950 text-zinc-800 dark:text-white">
+
+<div class="min-h-screen flex">
+
+  <!-- Sidebar -->
+
+  <div th:replace="~{adminSidebar :: adminSidebar}"></div>
+
+  <!-- Main Area -->
+
+  <main class="flex-1 lg:ml-72">
+
+    <!-- Top Bar -->
+
+    <header
+            class="sticky top-0 z-40 bg-white/80 dark:bg-zinc-950/80 backdrop-blur border-b border-zinc-200 dark:border-zinc-800">
+
+      <div
+              class="px-5 sm:px-8 py-4 flex items-center justify-between">
+
+        <div>
+
+          <h2 class="text-xl sm:text-2xl font-bold">Manage Vehicles</h2>
+
+          <p
+                  class="text-sm text-zinc-500 dark:text-zinc-400">
+            Manage vehicles in GoRido
+          </p>
+
+        </div>
+
+      </div>
+
+    </header>
+
+    <section class="p-5 sm:p-8 space-y-8">
+
+      <div
+              class="flex items-center justify-between w-full flex-wrap gap-4">
+
+        <!-- Breadcrumbs (LEFT) -->
+        <nav
+                class="text-xs text-zinc-400 dark:text-zinc-500 flex items-center flex-wrap">
+          <a href="/adminDashboard"
+             class="hover:text-yellow-400 transition">
+            Home
+          </a>
+
+          <span class="mx-2">/</span>
+
+          <span
+                  class="text-zinc-300 dark:text-zinc-200 font-medium">
+                                Manage Vehicles
+                            </span>
+        </nav>
+
+      </div>
+
+      <!-- Recent Rides -->
+
+      <div
+              class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-lg border border-zinc-200 dark:border-zinc-950 space-y-6">
+
+        <div class="space-y-4">
+
+          <!-- VEHICLE CARD -->
+          <div th:each="vehicle : ${vehicles}"
+               class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5 hover:border-cyan-400/30 transition duration-300">
+
+            <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
+
+              <div class="flex items-center gap-4 min-w-0">
+
+                <!-- Avatar -->
+                <div
+                        class="w-14 h-14 rounded-2xl bg-yellow-400/10 flex items-center justify-center text-yellow-400 font-bold text-lg flex-shrink-0">
+
+                <span th:text="${#strings.substring(vehicle.number,0,2)}">
+                </span>
+
+                </div>
+
+                <!-- Info -->
+                <div class="min-w-0">
+
+                  <div class="flex flex-wrap items-center gap-2">
+
+                    <!-- Name -->
+                    <h3 class="text-white font-semibold text-lg truncate"
+                        th:text="${vehicle.number}">
+                    </h3>
+
+                    <!-- Badge -->
+                    <span
+                            class="text-[11px] font-semibold px-2.5 py-1 rounded-full
+                               bg-yellow-400/10 text-yellow-400 border border-yellow-400/20">
+
+                                        Vehicle
+
+                                        </span>
+
+                  </div>
+
+                  <!-- Email -->
+                  <p class="text-sm text-zinc-500 mt-1 truncate"
+                     th:text="${vehicle.driverId.userId.email}">
+                  </p>
+
+                  <!-- Details -->
+                  <div class="flex flex-wrap items-center gap-5 mt-4">
+
+                    <!-- NIC -->
+                    <div class="flex items-center gap-2 text-sm text-zinc-400">
+
+                      <svg class="w-4 h-4 text-zinc-500"
+                           fill="none"
+                           stroke="currentColor"
+                           viewBox="0 0 24 24">
+
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M8 7h8l1 3h3v10H4V10h3l1-3z" />
+                      </svg>
+
+                      <span th:text="${vehicle.typeHasBrand.vehicleType.name}">
+                        </span>
+
+                    </div>
+
+                    <!-- Mobile -->
+                    <div class="flex items-center gap-2 text-sm text-zinc-400">
+
+                      <svg class="w-4 h-4 text-zinc-500"
+                           fill="none"
+                           stroke="currentColor"
+                           viewBox="0 0 24 24">
+
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7l3-7z" />
+                      </svg>
+
+                      <span th:text="${vehicle.vehicleColor.name}">
+                        </span>
+
+                    </div>
+
+                    <!-- Status -->
+                    <div class="flex items-center gap-2 text-sm"
+                         th:classappend="${vehicle.statusId.id == 1} ? 'text-emerald-400' : 'text-red-400'">
+
+                        <span class="w-2 h-2 rounded-full"
+                              th:classappend="${vehicle.statusId.id == 1} ? 'bg-emerald-400' : 'bg-red-400'">
+                        </span>
+
+                      <span th:text="${vehicle.statusId.id == 1} ? 'Active' : 'Deactive'">
+                        </span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- RIGHT (STATUS + BUTTONS like user card style) -->
+              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full xl:w-auto">
+
+                <!-- BUTTONS -->
+                <button th:if="${vehicle.statusId.id == 1}"
+                        th:attr="data-id=${vehicle.id}"
+                        onclick="changeVehicleStatus(this)"
+                        class="w-full sm:w-auto flex items-center justify-center px-5 py-2.5 rounded-xl
+                           bg-red-600 text-white text-sm font-semibold">
+                  Deactivate
+                </button>
+
+                <button th:if="${vehicle.statusId.id == 2}"
+                        th:attr="data-id=${vehicle.id}"
+                        onclick="changeVehicleStatus(this)"
+                        class="w-full sm:w-auto flex items-center justify-center px-5 py-2.5 rounded-xl
+                           bg-emerald-600 text-zinc-900 text-sm font-semibold">
+                  Activate
+                </button>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+<script src="/Js/manageVehiclesAdmin.js"></script>
+<script src="/Js/default.js"></script>
+</body>
+
+</html>
